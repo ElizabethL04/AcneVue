@@ -13,9 +13,23 @@ function App() {
   return (
     <div className="App">
 
-       <h2>Add Image:</h2>
-       <input type="file" onChange={handleChange} />
-       <img src={file} />
+      <div>
+            <h2 className="text-2xl font-bold mb-4">Add Image:</h2>
+
+            <input
+              type="file"
+              onChange={handleChange}
+              className="bg-blue-500 text-white py-2 px-4 rounded"
+            />
+
+            {file && (
+              <img
+                src={file}
+                alt="Selected Image"
+                className="my-image mt-4 rounded shadow-lg"
+              />
+            )}
+      </div>
 
 
       {/*<header className="App-header">
