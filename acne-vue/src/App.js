@@ -31,30 +31,31 @@ function App() {
 
 
 
-    <div className="text-center">
+    <div className="text-center flex-col items-center">
 
       <h1 className="text-6xl font-bold"> AcneVue</h1>
 
       <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
 
-      <label
-        className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block"
-      >
-        Choose File
-        <input
-          type="file"
-          onChange={handleChange}
-          className="hidden"
-        />
-      </label>
-
-      {file && (
-        <img
-          src={file}
-          alt="Selected Image"
-          className="my-image mt-4 rounded shadow-lg"
-        />
-      )}
+        <label
+          className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block"
+        >
+          Choose File
+          <input
+            type="file"
+            onChange={handleChange}
+            className="hidden"
+          />
+        </label>
+        <div className="self-center align-middle">
+          {file && (
+            <img
+              src={file}
+              alt="Selected Image"
+              className="my-image mt-4 rounded shadow-lg text-center"
+            />
+          )}
+        </div>
     </div>
 
       {/*<header className="App-header">
