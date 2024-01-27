@@ -7,8 +7,23 @@ function App() {
 
   const [file, setFile] = useState();
     function handleChange(e) {
-        console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
+        /*console.log(e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));*/
+        const selectedFile = e.target.files[0];
+
+        if (selectedFile) {
+          const reader = new FileReader();
+
+          reader.onload = (event) => {
+            const imageData = event.target.result;
+            setFile(imageData);
+
+            // Store the image data in a global variable
+            window.globalImageData = imageData;
+          };
+
+          reader.readAsDataURL(selectedFile);
+        }
   }
 
   return (
