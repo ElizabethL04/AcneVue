@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useState } from "react";
+import styles from "./index.css"
 
 function App() {
 
@@ -11,26 +12,35 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App  bg-red-100 max-h-screen">
 
-      <div>
-            <h2 className="text-2xl font-bold mb-4">Add Image:</h2>
 
-            <input
-              type="file"
-              onChange={handleChange}
-              className="bg-blue-500 text-white py-2 px-4 rounded"
-            />
 
-            {file && (
-              <img
-                src={file}
-                alt="Selected Image"
-                className="my-image mt-4 rounded shadow-lg"
-              />
-            )}
-      </div>
+    <div className="text-center">
 
+      <h1 className="text-6xl font-bold"> AcneVue</h1>
+
+      <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
+
+      <label
+        className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block"
+      >
+        Choose File
+        <input
+          type="file"
+          onChange={handleChange}
+          className="hidden"
+        />
+      </label>
+
+      {file && (
+        <img
+          src={file}
+          alt="Selected Image"
+          className="my-image mt-4 rounded shadow-lg"
+        />
+      )}
+    </div>
 
       {/*<header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
