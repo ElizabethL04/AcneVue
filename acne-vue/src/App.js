@@ -23,8 +23,8 @@ function ResultComponent({ maxIndex, onClick }) {
 
   return (
     <div>
-      <h2>Results</h2>
-      <p>{`Index of Max Value: ${maxIndex}`}</p>
+      <h2 className = "font-bold">Results</h2>
+      {/*<p>{`Index of Max Value: ${maxIndex}`}</p>*/}
       <p>{`Skin Condition: ${skinCondition}`}</p>
     </div>
   );
