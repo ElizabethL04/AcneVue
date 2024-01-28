@@ -108,34 +108,32 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App bg-red-100 min-h-screen flex flex-col justify-center">
       <div className="text-center flex-col items-center gap-8">
         <div>
           <h1 className="text-6xl font-bold"> AcneVue</h1>
-          <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
         </div>
 
         <div>
-          <label className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block">
+          <label className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-6">
             Choose File
             <input type="file" onChange={handleChange} className="hidden" />
           </label>
-        </div>
 
-        <div>
-          <button onClick={openCamera}>Open Camera</button>
+          <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+          onClick={openCamera}>Open Camera</button>
           {showWebcam && (
-            <>
+            <div className="flex items-center justify-center flex-col">
               <Webcam
                 audio={false}
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
                 className="my-image mt-4 rounded shadow-lg"
               />
-              <button onClick={captureImage}>Capture Image</button>
-            </>
+              <button className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-4"
+              onClick={captureImage}>Capture Image</button>
+            </div>
           )}
-        </div>
 
         <div>
           {file && (
@@ -149,7 +147,8 @@ function App() {
       </div>
 
       <div>
-        <button onClick={runInterference}>Run Interference</button>
+        <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+        onClick={runInterference}>Evaluate Skin</button>
       </div>
 
       {predictions.length > 0 && (
@@ -159,7 +158,7 @@ function App() {
         />
       )}
 
-      
+    </div>
     </div>
   );
 }
