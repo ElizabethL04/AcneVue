@@ -115,6 +115,7 @@ function App() {
       <div className="text-center flex-col items-center gap-8">
         <div>
           <h1 className="text-6xl font-bold"> AcneVue</h1>
+          <h4>Improving Skincare. With AI. </h4>
         </div>
 
         <div>
@@ -150,7 +151,7 @@ function App() {
       </div>
 
       {fileSelected && (
-          <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+          <button className="bg-red-400 text-white py-2 px-4 rounded inline-block m-6"
             onClick={runInterference}>Evaluate Skin</button>
       )}
 
