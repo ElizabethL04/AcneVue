@@ -1,11 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect} from "react";
 import * as tf from '@tensorflow/tfjs';
 import Webcam from 'react-webcam';
+
+function ResultComponent({ maxIndex, onClick }) {
+  return (
+    <div>
+      <h2>Results</h2>
+      <p>{`Index of Max Value: ${maxIndex}`}</p>
+      <button onClick={onClick}>Run Interference Again</button>
+    </div>
+  );
+}
 
 function App() {
   const [file, setFile] = useState();
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
+  const [predictions, setPredictions] = useState([]);
+  const [indexOfMaxValue, setIndexOfMaxValue] = useState(null);
 
   function handleChange(e) {
     const selectedFile = e.target.files[0];
@@ -32,6 +44,7 @@ function App() {
   }
 
   const runInterference = async () => {
+
     const formData = new FormData();
     formData.append('file', dataURItoBlob(file));
 
@@ -44,6 +57,14 @@ function App() {
       if (response.ok) {
         const result = await response.json();
         console.log('Predictions:', result.predictions);
+
+        const dataArray =result.predictions[0];
+        //find the index of with largest value
+        const newIndexOfMaxValue = dataArray.indexOf(Math.max(...dataArray));
+        setIndexOfMaxValue(newIndexOfMaxValue);
+
+        console.log("Index with the largest value:", newIndexOfMaxValue);
+
       } else {
         console.error('Error predicting. Please try again.');
       }
@@ -110,6 +131,15 @@ function App() {
       <div>
         <button onClick={runInterference}>Run Interference</button>
       </div>
+
+      {predictions.length > 0 && (
+        <ResultComponent
+          maxIndex={indexOfMaxValue} // Pass the index of the maximum value
+          onClick={() => setPredictions([])} 
+        />
+      )}
+
+      
     </div>
   );
 }
