@@ -3,11 +3,29 @@ import * as tf from '@tensorflow/tfjs';
 import Webcam from 'react-webcam';
 
 function ResultComponent({ maxIndex, onClick }) {
+  let skinCondition;
+
+  if (maxIndex === 0) {
+    skinCondition = 'Blackheads';
+  } else if (maxIndex === 1) {
+    skinCondition = 'Cyst';
+  } else if (maxIndex === 2) {
+    skinCondition = 'Papule';
+  }
+  else if (maxIndex === 3) {
+    skinCondition = 'Pustule';
+  }
+  else if (maxIndex === 4) {
+      skinCondition = 'Whiteheads';
+  } else {
+    skinCondition = 'Unknown Condition';
+  }
+
   return (
     <div>
       <h2>Results</h2>
       <p>{`Index of Max Value: ${maxIndex}`}</p>
-      <button onClick={onClick}>Run Interference Again</button>
+      <p>{`Skin Condition: ${skinCondition}`}</p>
     </div>
   );
 }
@@ -59,7 +77,9 @@ function App() {
         console.log('Predictions:', result.predictions);
 
         const dataArray =result.predictions[0];
+        setPredictions(dataArray)
         //find the index of with largest value
+        
         const newIndexOfMaxValue = dataArray.indexOf(Math.max(...dataArray));
         setIndexOfMaxValue(newIndexOfMaxValue);
 
