@@ -1,11 +1,13 @@
 import './App.css';
-import React, { useState useRef } from "react";
+import React, { useState, useRef } from "react";
 import * as tf from '@tensorflow/tfjs';
 import Webcam from 'react-webcam';
 import './model.tflite';
 
 function App() {
   const [file, setFile] = useState();
+  const webcamRef = useRef(null);
+  const [showWebcam, setShowWebcam] = useState(false);
 
   function handleChange(e) {
     const selectedFile = e.target.files[0];
@@ -23,6 +25,10 @@ function App() {
 
       reader.readAsDataURL(selectedFile);
     }
+  };
+
+  const openCamera = () => {
+    setShowWebcam(true);
   };
 
   const captureImage = () => {
@@ -69,21 +75,27 @@ function App() {
               className="hidden"
             />
           </label>
-          <br />
-          <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                className="my-image mt-4 rounded shadow-lg"
+          </div>
+          <div>
+            <button onClick={openCamera}>Open Camera</button>
+            {showWebcam && (
+              <>
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  className="my-image mt-4 rounded shadow-lg"
                 />
-            <button onClick={captureImage}>Capture Image</button>
+                <button onClick={captureImage}>Capture Image</button>
+              </>
+            )}
         </div>
 
         <div>
           {file && (
             <img
               src={file}
-              alt="Selected Image"
+              alt=""
               className="my-image mx-auto rounded shadow-lg w-64 h-auto"
             />
           )}
