@@ -1,76 +1,74 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState } from "react";
-import styles from "./index.css"
+import * as tf from '@tensorflow/tfjs';
+import './model.tflite';
 
 function App() {
-
   const [file, setFile] = useState();
-    function handleChange(e) {
-        /*console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));*/
-        const selectedFile = e.target.files[0];
 
-        if (selectedFile) {
-          const reader = new FileReader();
+  const handleChange = (e) => {
+    const selectedFile = e.target.files[0];
 
-          reader.onload = (event) => {
-            const imageData = event.target.result;
-            setFile(imageData);
+    if (selectedFile) {
+      const reader = new FileReader();
 
-            // Store the image data in a global variable
-            window.globalImageData = imageData;
-          };
+      reader.onload = (event) => {
+        const imageData = event.target.result;
+        setFile(imageData);
 
-          reader.readAsDataURL(selectedFile);
-        }
-  }
+        // Store the image data in a global variable
+        window.globalImageData = imageData;
+      };
+
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const runInterference = async () => {
+      const model = await tf.loadLayersModel('model.tflite');
+      const input = model.upload(window.globalImageData);
+      const prediction = model.pre_result(input);
+      prediction.print();
+
+      input.dispose();
+      prediction.dispose();
+      model.dispose();
+  };
+  const TFLiteInterference = () => {
+    return (
+        <div>
+            <button onClick={runInterference}>Run Interference</button>
+        </div>
+    );
+      
+};
 
   return (
     <div className="App  bg-red-100 max-h-screen">
-
-
-
-    <div className="text-center">
-
-      <h1 className="text-6xl font-bold"> AcneVue</h1>
-
-      <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
-
-      <label
-        className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block"
-      >
-        Choose File
-        <input
-          type="file"
-          onChange={handleChange}
-          className="hidden"
-        />
-      </label>
-
-      {file && (
-        <img
-          src={file}
-          alt="Selected Image"
-          className="my-image mt-4 rounded shadow-lg"
-        />
-      )}
-    </div>
-
-      {/*<header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="text-center">
+        <h1 className="text-6xl font-bold"> AcneVue</h1>
+        <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
+        <label
+          className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block"
         >
-          Learn React
-        </a>
-  </header>*/}
+          Choose File
+          <input
+            type="file"
+            onChange={handleChange}
+            className="hidden"
+          />
+        </label>
+        {file && (
+          <img
+            src={file}
+            alt="Selected Image"
+            className="my-image mt-4 rounded shadow-lg"
+          />
+        )}
+      </div>
+      <div>
+        <TFLiteInterference />
+      </div>
     </div>
   );
 }
