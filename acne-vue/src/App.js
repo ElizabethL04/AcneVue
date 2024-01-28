@@ -36,6 +36,7 @@ function App() {
   const [showWebcam, setShowWebcam] = useState(false);
   const [predictions, setPredictions] = useState([]);
   const [indexOfMaxValue, setIndexOfMaxValue] = useState(null);
+  const [fileSelected, setFileSelected] = useState(false);
 
   function handleChange(e) {
     const selectedFile = e.target.files[0];
@@ -46,6 +47,7 @@ function App() {
       reader.onload = (event) => {
         const imageData = event.target.result;
         setFile(imageData);
+        setFileSelected(true)
       };
 
       reader.readAsDataURL(selectedFile);
@@ -59,6 +61,7 @@ function App() {
   const captureImage = () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setFile(imageSrc);
+    setFileSelected(true)
   }
 
   const runInterference = async () => {
@@ -146,10 +149,10 @@ function App() {
         </div>
       </div>
 
-      <div>
-        <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
-        onClick={runInterference}>Evaluate Skin</button>
-      </div>
+      {fileSelected && (
+          <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+            onClick={runInterference}>Evaluate Skin</button>
+      )}
 
       {predictions.length > 0 && (
         <ResultComponent
