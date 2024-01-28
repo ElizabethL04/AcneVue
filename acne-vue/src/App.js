@@ -38,7 +38,7 @@ function App() {
     window.globalImageData = imageSrc;
   }
   const runInterference = async () => {
-      const model = await tf.loadLayersModel('model.tflite');
+    const model = await tf.loadLayersModel('model.tflite');
       const input = model.upload(window.globalImageData);
       const prediction = model.pre_result(input);
       prediction.print();
@@ -50,24 +50,24 @@ function App() {
   const TFLiteInterference = () => {
     return (
         <div>
-            <button onClick={runInterference}>Run Interference</button>
+            <button className='cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-2'
+            onClick={runInterference}>Run ML Model</button>
         </div>
     );
       
 };
 
   return (
-    <div className="App  bg-red-100 max-h-screen">
+    <div className="App  bg-red-100 min-h-screen flex flex-col justify-center">
       <div className="text-center flex-col items-center gap-8">
 
         <div>
           <h1 className="text-6xl font-bold"> AcneVue</h1>
-          <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
         </div>
         
-        <div>
+        <div className='flex justify-center items-center gap-4'>
           <label
-            className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block">
+            className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-6">
             Choose File
             <input
               type="file"
@@ -75,21 +75,23 @@ function App() {
               className="hidden"
             />
           </label>
-          </div>
-          <div>
-            <button onClick={openCamera}>Open Camera</button>
+            <button             
+            className='cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-6'
+            onClick={openCamera}>Open Camera</button>
+            </div>
             {showWebcam && (
-              <>
+              <div className='flex items-center justify-center flex-col'>
                 <Webcam
                   audio={false}
                   ref={webcamRef}
                   screenshotFormat="image/jpeg"
                   className="my-image mt-4 rounded shadow-lg"
                 />
-                <button onClick={captureImage}>Capture Image</button>
-              </>
+                <button             
+                className='cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-4'
+                onClick={captureImage}>Capture Image</button>
+              </div>
             )}
-        </div>
 
         <div>
           {file && (
@@ -105,7 +107,7 @@ function App() {
         <TFLiteInterference />
       </div>
     </div>
-  );
-}
+      );
+      }
 
-export default App;
+    export default App;
