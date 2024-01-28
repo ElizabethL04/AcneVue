@@ -45,26 +45,34 @@ function App() {
 
   return (
     <div className="App  bg-red-100 max-h-screen">
-      <div className="text-center">
-        <h1 className="text-6xl font-bold"> AcneVue</h1>
-        <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
-        <label
-          className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block"
-        >
-          Choose File
-          <input
-            type="file"
-            onChange={handleChange}
-            className="hidden"
-          />
-        </label>
-        {file && (
-          <img
-            src={file}
-            alt="Selected Image"
-            className="my-image mt-4 rounded shadow-lg"
-          />
-        )}
+      <div className="text-center flex-col items-center gap-8">
+
+        <div>
+          <h1 className="text-6xl font-bold"> AcneVue</h1>
+          <h2 className="text-4xl red font-bold mb-4">Add Image:</h2>
+        </div>
+        
+        <div>
+          <label
+            className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block">
+            Choose File
+            <input
+              type="file"
+              onChange={handleChange}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        <div>
+          {file && (
+            <img
+              src={file}
+              alt="Selected Image"
+              className="my-image mx-auto rounded shadow-lg w-64 h-auto"
+            />
+          )}
+        </div>
       </div>
       <div>
         <TFLiteInterference />
