@@ -115,12 +115,12 @@ function App() {
         </div>
 
         <div>
-          <label className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-6">
+          <label className="cursor-pointer bg-red-300 hover:bg-red-400 text-white py-2 px-4 rounded inline-block m-6">
             Choose File
             <input type="file" onChange={handleChange} className="hidden" />
           </label>
 
-          <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+          <button className="bg-red-300 hover:bg-red-400 text-white py-2 px-4 rounded inline-block m-6"
           onClick={openCamera}>Open Camera</button>
           {showWebcam && (
             <div className="flex items-center justify-center flex-col">
@@ -130,7 +130,7 @@ function App() {
                 screenshotFormat="image/jpeg"
                 className="my-image mt-4 rounded shadow-lg"
               />
-              <button className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-4"
+              <button className="cursor-pointer bg-red-300 hover:bg-red-400 text-white py-2 px-4 rounded inline-block m-4"
               onClick={captureImage}>Capture Image</button>
             </div>
           )}
@@ -147,7 +147,7 @@ function App() {
       </div>
 
       <div>
-        <button className="bg-red-400 text-white py-2 px-4 rounded inline-block m-6"
+        <button className="bg-red-400 hover:bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
         onClick={runInterference}>Evaluate Skin</button>
       </div>
 
