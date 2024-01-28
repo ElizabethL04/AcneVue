@@ -147,7 +147,7 @@ function App() {
       </div>
 
       <div>
-        <button className="bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+        <button className="bg-red-400 text-white py-2 px-4 rounded inline-block m-6"
         onClick={runInterference}>Evaluate Skin</button>
       </div>
 
