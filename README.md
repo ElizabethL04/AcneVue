@@ -15,7 +15,7 @@ During the project, we encountered several issues
 - At first, we planned to build the website using only React and encountered huge obstacles with parsing JSON files since some Keras layers were not compatible with TensorFlow.js, so we decided to implement the back-end using Flask to solve the issue.
 - Our team didn't have prior experience with back-end so we also faced some issues while implementing it.
   
-## Accomplishments that we're proud of
+## Our Accomplishments
 Using only a very limited set of data, we managed to build our first ML model capable of classifying 5 different types of skin conditions, _**achieivng an accuracy of more than 60%**_ 
 
 ### Classifying Accuracy and Loss Graph
