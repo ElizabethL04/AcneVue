@@ -1,6 +1,7 @@
 import './App.css';
-import React, { useState } from "react";
+import React, { useState useRef } from "react";
 import * as tf from '@tensorflow/tfjs';
+import Webcam from 'react-webcam';
 import './model.tflite';
 
 function App() {
@@ -24,6 +25,12 @@ function App() {
     }
   };
 
+  const captureImage = () => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setFile(imageSrc);
+
+    window.globalImageData = imageSrc;
+  }
   const runInterference = async () => {
       const model = await tf.loadLayersModel('model.tflite');
       const input = model.upload(window.globalImageData);
@@ -62,6 +69,14 @@ function App() {
               className="hidden"
             />
           </label>
+          <br />
+          <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                className="my-image mt-4 rounded shadow-lg"
+                />
+            <button onClick={captureImage}>Capture Image</button>
         </div>
 
         <div>
