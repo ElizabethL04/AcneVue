@@ -1,10 +1,10 @@
 # AcneVue
 
 ## Inspiration
-For years, the field of dermatology has been facing a myriad of challenges, some of which include the accuracy and efficiency of diagnosing skin conditions. Skin disease diagnoses were traditionally based on visual inspections, observations, and measurements. However, the accuracy of these methods will vary between healthcare professionals and dermatologists, depending on their experience and skills. As a result, skin conditions are often misdiagnosed, leading to severe consequences. With the advancement of Machine Learning in recent years, healthcare professionals and dermatologists can use this technology to gain faster and more precise results. Our team was inspired by the challenges that skin conditions pose, and by the immense potentials that ML could bring to the field of dermatology.
+For years, the field of dermatology has been facing a myriad of challenges, some of which include the accuracy and efficiency of diagnosing skin conditions. Skin disease diagnoses were traditionally based on visual inspections, observations, and measurements. However, the accuracy of these methods will vary between healthcare professionals and dermatologists, depending on their experience and skills. As a result, skin conditions are often misdiagnosed, leading to severe consequences. With the advancement of Machine Learning in recent years, healthcare professionals and dermatologists can use this technology to gain faster and more precise results. Our team was inspired by the challenges that skin conditions pose, and by the immense potential that ML could bring to the field of dermatology.
 
 ## What Our Project Does
-Our website is capable of classifying 5 different types of skin conditions (blackhead, cyst, whitehead, papule, and pustule) using selfies taken or uploaded by users. And from there, we would provide users with tailored insights on how to alleviate the condition.
+Our website is capable of classifying 5 different types of skin conditions (blackhead, cyst, whitehead, papule, and pustule) using selfies taken or uploaded by users. From there, we would provide users with tailored insights on how to alleviate the condition.
 
 ## How We Built It
 We trained an acne classifier from 200 images using TensorFlow and Keras. Then, we built the back-end component using Flask and the front-end using React.
@@ -16,7 +16,7 @@ During the project, we encountered several issues
 - Our team didn't have prior experience with back-end so we also faced some issues while implementing it.
   
 ## Our Accomplishments
-Using only a very limited set of data, we managed to build our first ML model capable of classifying 5 different types of skin conditions, _**achieivng an accuracy of more than 60%**_ 
+Using only a very limited set of data, we managed to build our first ML model capable of classifying 5 different types of skin conditions, _**achieving an accuracy of more than 60%**_ 
 
 ### Classifying Accuracy and Loss Graph
 <img style="center" src="analysis/accuracy_graph.png" alt="Accuracy Graph" width="600px"/> 
