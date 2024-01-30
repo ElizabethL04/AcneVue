@@ -7,7 +7,7 @@ For years, the field of dermatology has been facing a myriad of challenges, some
 Our website is capable of classifying 5 different types of skin conditions (blackhead, cyst, whitehead, papule, and pustule) using selfies taken or uploaded by users. From there, we would provide users with tailored insights on how to alleviate the condition.
 
 ## How We Built It
-We trained an acne classifier from 200 images using TensorFlow and Keras. Then, we built the back-end component using Flask and the front-end using React.
+We trained an acne classifier from 100 images using TensorFlow and Keras. Then, we built the back-end component using Flask and the front-end using React.
 
 ## Challenges We Ran Into
 During the project, we encountered several issues
