@@ -1,13 +1,42 @@
-import './App.css';
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect} from "react";
 import * as tf from '@tensorflow/tfjs';
 import Webcam from 'react-webcam';
-import './model.tflite';
+
+function ResultComponent({ maxIndex, onClick }) {
+  let skinCondition;
+
+  if (maxIndex === 0) {
+    skinCondition = 'Blackheads';
+  } else if (maxIndex === 1) {
+    skinCondition = 'Cyst';
+  } else if (maxIndex === 2) {
+    skinCondition = 'Papule';
+  }
+  else if (maxIndex === 3) {
+    skinCondition = 'Pustule';
+  }
+  else if (maxIndex === 4) {
+      skinCondition = 'Whiteheads';
+  } else {
+    skinCondition = 'Unknown Condition';
+  }
+
+  return (
+    <div>
+      <h2 className = "font-bold">Results</h2>
+      {/*<p>{`Index of Max Value: ${maxIndex}`}</p>*/}
+      <p>{`Skin Condition: ${skinCondition}`}</p>
+    </div>
+  );
+}
 
 function App() {
   const [file, setFile] = useState();
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
+  const [predictions, setPredictions] = useState([]);
+  const [indexOfMaxValue, setIndexOfMaxValue] = useState(null);
+  const [fileSelected, setFileSelected] = useState(false);
 
   function handleChange(e) {
     const selectedFile = e.target.files[0];
@@ -18,9 +47,7 @@ function App() {
       reader.onload = (event) => {
         const imageData = event.target.result;
         setFile(imageData);
-
-        // Store the image data in a global variable
-        window.globalImageData = imageData;
+        setFileSelected(true)
       };
 
       reader.readAsDataURL(selectedFile);
@@ -34,64 +61,83 @@ function App() {
   const captureImage = () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setFile(imageSrc);
-
-    window.globalImageData = imageSrc;
+    setFileSelected(true)
   }
-  const runInterference = async () => {
-    const model = await tf.loadLayersModel('model.tflite');
-      const input = model.upload(window.globalImageData);
-      const prediction = model.pre_result(input);
-      prediction.print();
 
-      input.dispose();
-      prediction.dispose();
-      model.dispose();
+  const runInterference = async () => {
+
+    const formData = new FormData();
+    formData.append('file', dataURItoBlob(file));
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Predictions:', result.predictions);
+
+        const dataArray =result.predictions[0];
+        setPredictions(dataArray)
+        //find the index of with largest value
+        
+        const newIndexOfMaxValue = dataArray.indexOf(Math.max(...dataArray));
+        setIndexOfMaxValue(newIndexOfMaxValue);
+
+        console.log("Index with the largest value:", newIndexOfMaxValue);
+
+      } else {
+        console.error('Error predicting. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
   };
-  const TFLiteInterference = () => {
-    return (
-        <div>
-            <button className='cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-2'
-            onClick={runInterference}>Run ML Model</button>
-        </div>
-    );
-      
-};
+
+  // Convert data URI to Blob
+  const dataURItoBlob = (dataURI) => {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], { type: mimeString });
+  };
 
   return (
-    <div className="App  bg-red-100 min-h-screen flex flex-col justify-center">
+    <div className="App bg-red-100 min-h-screen flex flex-col justify-center">
       <div className="text-center flex-col items-center gap-8">
-
         <div>
           <h1 className="text-6xl font-bold"> AcneVue</h1>
+          <h4>Improving Skincare. With AI. </h4>
         </div>
-        
-        <div className='flex justify-center items-center gap-4'>
-          <label
-            className="cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-6">
+
+        <div>
+          <label className="cursor-pointer bg-red-300 hover:bg-red-400 text-white py-2 px-4 rounded inline-block m-6">
             Choose File
-            <input
-              type="file"
-              onChange={handleChange}
-              className="hidden"
-            />
+            <input type="file" onChange={handleChange} className="hidden" />
           </label>
-            <button             
-            className='cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-6'
-            onClick={openCamera}>Open Camera</button>
+
+          <button className="bg-red-300 hover:bg-red-400 text-white py-2 px-4 rounded inline-block m-6"
+          onClick={openCamera}>Open Camera</button>
+          {showWebcam && (
+            <div className="flex items-center justify-center flex-col">
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                className="my-image mt-4 rounded shadow-lg"
+              />
+              <button className="cursor-pointer bg-red-300 hover:bg-red-400 text-white py-2 px-4 rounded inline-block m-4"
+              onClick={captureImage}>Capture Image</button>
             </div>
-            {showWebcam && (
-              <div className='flex items-center justify-center flex-col'>
-                <Webcam
-                  audio={false}
-                  ref={webcamRef}
-                  screenshotFormat="image/jpeg"
-                  className="my-image mt-4 rounded shadow-lg"
-                />
-                <button             
-                className='cursor-pointer bg-red-300 text-white py-2 px-4 rounded inline-block m-4'
-                onClick={captureImage}>Capture Image</button>
-              </div>
-            )}
+          )}
 
         <div>
           {file && (
@@ -103,11 +149,22 @@ function App() {
           )}
         </div>
       </div>
-      <div>
-        <TFLiteInterference />
-      </div>
-    </div>
-      );
-      }
 
-    export default App;
+      {fileSelected && (
+          <button className="bg-red-400 hover:bg-red-300 text-white py-2 px-4 rounded inline-block m-6"
+            onClick={runInterference}>Evaluate Skin</button>
+      )}
+
+      {predictions.length > 0 && (
+        <ResultComponent
+          maxIndex={indexOfMaxValue} // Pass the index of the maximum value
+          onClick={() => setPredictions([])} 
+        />
+      )}
+
+    </div>
+    </div>
+  );
+}
+
+export default App;
